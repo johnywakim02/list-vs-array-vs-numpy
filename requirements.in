@@ -1,0 +1,3 @@
+black
+pip-tools
+pre_commit

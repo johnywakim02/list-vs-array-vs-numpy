@@ -1,4 +1,5 @@
 import time
+import matplotlib.pyplot as plt
 
 N_ITER = 100
 
@@ -10,9 +11,9 @@ def list_append_timing(lst: list, element: object, n_iter: int = N_ITER):
         lst.append(element)
         total_time += time.perf_counter() - start
         lst.pop()  # undo to keep list size constant
-    print(
-        f"Average append time over {n_iter} iterations: {total_time / n_iter:.10f} seconds"
-    )
+    duration = total_time / n_iter
+    print(f"Average append time over {n_iter} iterations: {duration:.10f} seconds")
+    return duration
 
 
 def list_insert_timing(
@@ -24,9 +25,31 @@ def list_insert_timing(
         lst.insert(position, element)
         total_time += time.perf_counter() - start
         del lst[position]  # undo to keep list size constant
-    print(
-        f"Average append time over {n_iter} iterations: {total_time / n_iter:.10f} seconds"
-    )
+    duration = total_time / n_iter
+    print(f"Average append time over {n_iter} iterations: {duration:.10f} seconds")
+    return duration
+
+
+def test_insert_speed_100000el_draw_graph():
+    print("> Insert with list of 100000 elements at various positions")
+    print("----------------------------------------------------------")
+    lst = [i for i in range(100000)]
+    positions = [0, 25000, 50000, 75000, 99999]
+    timings = []
+
+    for pos in positions:
+        avg_time = list_insert_timing(lst, "hello", pos)
+        print(f"Insert at index {pos}: {avg_time:.10f} seconds")
+        timings.append(avg_time)
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(positions, timings, marker="o")
+    plt.title("Insert Time vs Position in List of 100,000 Elements")
+    plt.xlabel("Insert Position")
+    plt.ylabel("Average Time (seconds)")
+    plt.grid(True)
+    plt.show()
 
 
 def test_append_speed_3el():
@@ -101,3 +124,4 @@ if __name__ == "__main__":
     test_insert_speed_1000el()
     test_insert_speed_100000el()
     test_insert_speed_100000000el()
+    test_insert_speed_100000el_draw_graph()

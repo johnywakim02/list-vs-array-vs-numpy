@@ -4,11 +4,3 @@ repos:
     hooks:
       - id: black
         language_version: python
-
-  - repo: local
-    hooks:
-      - id: backup-requirements
-        name: Backup requirements.txt
-        entry: python custom_hooks/pre_commit/backup_requirements.py
-        language: system
-        types: [file]

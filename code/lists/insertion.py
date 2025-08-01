@@ -4,47 +4,103 @@ import matplotlib.pyplot as plt
 N_ITER = 100
 
 
-def list_append_timing(lst: list, element: object, n_iter: int = N_ITER):
-    total_time = 0
+def time_list_insertion_op(lst, element, action="append", pos=None, n_iter=N_ITER):
+    """
+    Measures average time of lst.append(element) or lst.insert(pos, element),
+    undoing each operation to keep the list size constant.
+    """
+    # Validate action once
+    if action not in ("append", "insert"):
+        raise ValueError(f"action cannot have value '{action}'")
+
+    total = 0.0
     for _ in range(n_iter):
         start = time.perf_counter()
-        lst.append(element)
-        total_time += time.perf_counter() - start
-        lst.pop()  # undo to keep list size constant
-    duration = total_time / n_iter
-    print(f"Average append time over {n_iter} iterations: {duration:.10f} seconds")
-    return duration
+        if action == "append":
+            lst.append(element)
+        else:
+            lst.insert(pos, element)
+        total += time.perf_counter() - start
+
+        # undo
+        if action == "append":
+            lst.pop()
+        else:
+            del lst[pos]
+
+    avg = total / n_iter
+    print(f"Average {action} time over {n_iter} iterations: {avg:.10f} seconds")
+    return avg
 
 
-def list_insert_timing(
-    lst: list, element: object, position: int, n_iter: int = N_ITER
-) -> None:
-    total_time = 0
-    for _ in range(n_iter):
-        start = time.perf_counter()
-        lst.insert(position, element)
-        total_time += time.perf_counter() - start
-        del lst[position]  # undo to keep list size constant
-    duration = total_time / n_iter
-    print(f"Average append time over {n_iter} iterations: {duration:.10f} seconds")
-    return duration
+def run_benchmarks():
+    # (description, initial_list, element, action, positions or None)
+    tests = [
+        (
+            "Append with list of 3 elements",
+            ["chihuahua", "bulldog", "butterfly"],
+            "bernese",
+            "append",
+            None,
+        ),
+        ("Append with list of 1000 elements", list(range(1001)), 1001, "append", None),
+        (
+            "Append with list of 100000 elements",
+            list(range(100001)),
+            51,
+            "append",
+            None,
+        ),
+        (
+            "Insert with list of 10 elements at beg/mid/end",
+            list(range(11)),
+            "hello",
+            "insert",
+            [2, 5, 8],
+        ),
+        (
+            "Insert with list of 1000 elements at beg/mid/end",
+            list(range(1001)),
+            "hello",
+            "insert",
+            [50, 450, 850],
+        ),
+        (
+            "Insert with list of 100000 elements at beg/mid/end",
+            list(range(100001)),
+            "hello",
+            "insert",
+            [50, 50000, 99500],
+        ),
+        (
+            "Insert with list of 100_000_000 elements at beg/mid/end",
+            list(range(100000001)),
+            "hello",
+            "insert",
+            [50, 50000000, 99999500],
+        ),
+    ]
 
+    for desc, lst, elem, action, positions in tests:
+        print(f"> {desc}")
+        print("-" * len(desc))
+        if positions is None:
+            time_list_insertion_op(lst, elem, action)
+        else:
+            for pos in positions:
+                print(f"Insert at index {pos}:", end=" ")
+                time_list_insertion_op(lst, elem, action, pos)
+        print()
 
-def test_insert_speed_100000el_draw_graph():
+    # Special: draw graph for 100k‐element insert
     print("> Insert with list of 100000 elements at various positions")
-    print("----------------------------------------------------------")
-    lst = [i for i in range(100000)]
-    positions = [0, 25000, 50000, 75000, 99999]
-    timings = []
+    print("-" * 58)
+    base = list(range(100000))
+    pos_list = [0, 12500, 25000, 37500, 50000, 62500, 75000, 87500, 99999]
+    times = [time_list_insertion_op(base, "hello", "insert", pos) for pos in pos_list]
 
-    for pos in positions:
-        avg_time = list_insert_timing(lst, "hello", pos)
-        print(f"Insert at index {pos}: {avg_time:.10f} seconds")
-        timings.append(avg_time)
-
-    # Plotting
     plt.figure(figsize=(10, 6))
-    plt.plot(positions, timings, marker="o")
+    plt.plot(pos_list, times, marker="o")
     plt.title("Insert Time vs Position in List of 100,000 Elements")
     plt.xlabel("Insert Position")
     plt.ylabel("Average Time (seconds)")
@@ -52,76 +108,5 @@ def test_insert_speed_100000el_draw_graph():
     plt.show()
 
 
-def test_append_speed_3el():
-    print("> Append with list of 3 elements")
-    print("--------------------------------")
-    dog_breeds = ["chihuahua", "bulldog", "butterfly"]
-    list_append_timing(dog_breeds, "bernese")
-    print()
-
-
-def test_append_speed_1000el():
-    print("> Append with list of 1000 elements")
-    print("--------------------------------")
-    lst = [i for i in range(1001)]
-    list_append_timing(lst, 1001)
-    print()
-
-
-def test_append_speed_100000el():
-    print("> Append with list of 100000 elements")
-    print("--------------------------------")
-    lst = [i for i in range(100001)]
-    list_append_timing(lst, 51)
-    print()
-
-
-def test_insert_speed_10el():
-    print("> Insert with list of 10 elements, at beg than mid then end")
-    print("--------------------------------")
-    lst = [i for i in range(11)]
-    list_insert_timing(lst, "hello", 2)
-    list_insert_timing(lst, "hello", 5)
-    list_insert_timing(lst, "hello", 8)
-    print()
-
-
-def test_insert_speed_1000el():
-    print("> Insert with list of 1000 elements, at beg than mid then end")
-    print("--------------------------------")
-    lst = [i for i in range(1001)]
-    list_insert_timing(lst, "hello", 50)
-    list_insert_timing(lst, "hello", 450)
-    list_insert_timing(lst, "hello", 850)
-    print()
-
-
-def test_insert_speed_100000el():
-    print("> Insert with list of 100000 elements, at beg than mid then end")
-    print("--------------------------------")
-    lst = [i for i in range(100001)]
-    list_insert_timing(lst, "hello", 50)
-    list_insert_timing(lst, "hello", 50000)
-    list_insert_timing(lst, "hello", 99500)
-    print()
-
-
-def test_insert_speed_100000000el():
-    print("> Insert with list of 100_000_000 elements, at beg than mid then end")
-    print("--------------------------------")
-    lst = [i for i in range(100000001)]
-    list_insert_timing(lst, "hello", 50)
-    list_insert_timing(lst, "hello", 50000000)
-    list_insert_timing(lst, "hello", 99999500)
-    print()
-
-
 if __name__ == "__main__":
-    test_append_speed_3el()
-    test_append_speed_1000el()
-    test_append_speed_100000el()
-    test_insert_speed_10el()
-    test_insert_speed_1000el()
-    test_insert_speed_100000el()
-    test_insert_speed_100000000el()
-    test_insert_speed_100000el_draw_graph()
+    run_benchmarks()

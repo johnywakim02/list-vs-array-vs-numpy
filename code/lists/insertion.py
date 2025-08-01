@@ -4,7 +4,13 @@ import matplotlib.pyplot as plt
 N_ITER = 100
 
 
-def time_list_insertion_op(lst, element, action="append", pos=None, n_iter=N_ITER):
+def time_list_insertion_op(
+    lst: list,
+    element: object,
+    action: str = "append",
+    pos: int = None,
+    n_iter: int = N_ITER,
+):
     """
     Measures average time of lst.append(element) or lst.insert(pos, element),
     undoing each operation to keep the list size constant.
@@ -92,17 +98,51 @@ def run_benchmarks():
                 time_list_insertion_op(lst, elem, action, pos)
         print()
 
-    # Special: draw graph for 100k‐element insert
-    print("> Insert with list of 100000 elements at various positions")
+    # Special: draw graph for 100M‐element insert
+    print("> Insert with list of 100,000,000 elements at various positions")
     print("-" * 58)
-    base = list(range(100000))
-    pos_list = [0, 12500, 25000, 37500, 50000, 62500, 75000, 87500, 99999]
+    base = list(range(100_000_000))
+    pos_list = [
+        0,
+        10_000_000,
+        20_000_000,
+        40_000_000,
+        60_000_000,
+        80_000_000,
+        100_000_000,
+    ]
     times = [time_list_insertion_op(base, "hello", "insert", pos) for pos in pos_list]
 
     plt.figure(figsize=(10, 6))
     plt.plot(pos_list, times, marker="o")
-    plt.title("Insert Time vs Position in List of 100,000 Elements")
+    plt.title("Insert Time vs Position in List of 100,000,000 Elements")
     plt.xlabel("Insert Position")
+    plt.ylabel("Average Time (seconds)")
+    plt.grid(True)
+    plt.show()
+
+    # Special: draw graph of insertion at position 0 for increasing list sizes
+    print("> Insert with lists of various sizes up to 100M, at position 0")
+    print("-" * 58)
+    base = [
+        [0] * i
+        for i in [
+            0,
+            10_000_000,
+            20_000_000,
+            40_000_000,
+            60_000_000,
+            80_000_000,
+            100_000_000,
+        ]
+    ]
+    times = [
+        time_list_insertion_op(base[i], "hello", "insert", 0) for i in range(len(base))
+    ]
+    plt.figure(figsize=(10, 6))
+    plt.plot([len(base[i]) for i in range(len(base))], times, marker="o")
+    plt.title("Insert Time vs length of list, inserting at position 0")
+    plt.xlabel("List length")
     plt.ylabel("Average Time (seconds)")
     plt.grid(True)
     plt.show()

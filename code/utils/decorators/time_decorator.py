@@ -12,6 +12,7 @@ def timeit(n_iter: int):
             end = time.perf_counter()
             duration = (end - start) / n_iter
             print(f"{func.__name__} took {duration:.8f} seconds")
+            return duration, result
 
         return wrapper
 

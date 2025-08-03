@@ -1,6 +1,7 @@
 from code.utils.decorators.time_decorator import timeit
 import matplotlib.pyplot as plt
 import random
+from enum import Enum
 
 N_ITER = 100
 
@@ -35,6 +36,13 @@ def plot_graph(x_values, y_values):
     plt.show()
 
 
+def compute_time_and_draw(msg: str, method, list_sizes: list[int]):
+    print("> {msg}")
+    print("-" * 58)
+    times = [method(size)[0] for size in list_sizes]
+    plot_graph(list_sizes, times)
+
+
 if __name__ == "__main__":
     list_sizes = [
         0,
@@ -46,19 +54,17 @@ if __name__ == "__main__":
         80_000_000,
         100_000_000,
     ]
-    # print("> Creating lists")
-    # print("-" * 58)
-    # times = [create_list(size)[0] for size in list_sizes]
-    # plot_graph(list_sizes, times)
-    # print("> Creating lists from iterables")
-    # print("-" * 58)
-    # times = [create_list_from_iterable(size)[0] for size in list_sizes]
-    # plot_graph(list_sizes, times)
-    # print("> Creating lists using list comprehensions")
-    # print("-" * 58)
-    # times = [create_list_comprehension(size)[0] for size in list_sizes]
-    # plot_graph(list_sizes, times)
-    print("> Creating lists of random floats between 0 and 100")
-    print("-" * 58)
-    times = [create_random_float_list(size)[0] for size in list_sizes]
-    plot_graph(list_sizes, times)
+    compute_time_and_draw("Creating lists", create_list, list_sizes)
+    compute_time_and_draw(
+        "Creating lists from iterables", create_list_from_iterable, list_sizes
+    )
+    compute_time_and_draw(
+        "Creating lists using list comprehensions",
+        create_list_comprehension,
+        list_sizes,
+    )
+    compute_time_and_draw(
+        "Creating lists of random floats between 0 and 100",
+        create_random_float_list,
+        list_sizes,
+    )

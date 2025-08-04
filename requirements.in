@@ -2,3 +2,5 @@ black
 pip-tools
 pre_commit
 matplotlib
+numpy
+numba

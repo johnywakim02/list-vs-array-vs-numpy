@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from code.lists.creation import create_list
+from code.lists.creation import create_list, create_random_float_list
 from code.utils.decorators.time_decorator import timeit
 
 N_ITER = 100
@@ -9,6 +9,14 @@ N_ITER = 100
 def iterate_list(lst: list):
     for _ in lst:
         pass
+
+
+@timeit(n_iter=N_ITER)
+def iterate_list_summing(lst: list):
+    total = 0.0
+    for el in lst:
+        total += el
+    return total
 
 
 def main():
@@ -22,6 +30,8 @@ def main():
         80_000_000,
         100_000_000,
     ]
+    _, lst = create_random_float_list(n_el=list_sizes[-1])
+    iterate_list_summing(lst)
     times = []
     for size in list_sizes:
         _, lst = create_list(n_el=size)

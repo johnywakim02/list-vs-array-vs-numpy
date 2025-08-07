@@ -4,3 +4,4 @@ pre_commit
 matplotlib
 numpy
 numba
+dotenv

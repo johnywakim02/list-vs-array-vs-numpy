@@ -1,7 +1,8 @@
 import time
 import matplotlib.pyplot as plt
+from config import config
 
-N_ITER = 100
+N_ITER = config.N_ITER
 
 
 def time_list_insertion_op(

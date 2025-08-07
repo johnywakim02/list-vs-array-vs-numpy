@@ -2,8 +2,9 @@ from code.utils.decorators.time_decorator import timeit
 import matplotlib.pyplot as plt
 import random
 from enum import Enum
+from config import config
 
-N_ITER = 100
+N_ITER = config.N_ITER
 
 
 @timeit(n_iter=N_ITER)

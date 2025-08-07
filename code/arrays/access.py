@@ -1,3 +1,5 @@
+from array import array
+import random
 import numpy as np
 from code.utils.decorators.time_decorator import timeit
 from config import config
@@ -6,17 +8,17 @@ N_ITER = config.N_ITER
 
 
 @timeit(n_iter=N_ITER)
-def read_element(arr: np.ndarray, pos: int):
+def read_element(arr: array, pos: int):
     return arr[pos]
 
 
 @timeit(n_iter=N_ITER)
-def write_element(arr: np.ndarray, pos: int, val: object):
+def write_element(arr: array, pos: int, val: object):
     arr[pos] = val
 
 
 if __name__ == "__main__":
-    arr = np.random.rand(100_000_000) * 100
+    arr = array("f", [random.uniform(0, 100) for _ in range(100_000_000)])
     read_element(arr, 100)
     read_element(arr, 100_000)
     read_element(arr, 99_999_998)

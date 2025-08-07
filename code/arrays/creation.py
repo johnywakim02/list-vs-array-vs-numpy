@@ -1,8 +1,9 @@
 import random
 from array import array
 from code.utils.decorators.time_decorator import timeit
+from config import config
 
-N_ITER = 100
+N_ITER = config.N_ITER
 
 
 @timeit(n_iter=N_ITER)

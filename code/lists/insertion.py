@@ -1,5 +1,6 @@
 import time
 import matplotlib.pyplot as plt
+from code.utils.methods.draw import plot_graph
 from config import config
 
 N_ITER = config.N_ITER
@@ -114,13 +115,8 @@ def run_benchmarks():
     ]
     times = [time_list_insertion_op(base, "hello", "insert", pos) for pos in pos_list]
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(pos_list, times, marker="o")
-    plt.title("Insert Time vs Position in List of 100,000,000 Elements")
-    plt.xlabel("Insert Position")
-    plt.ylabel("Average Time (seconds)")
-    plt.grid(True)
-    plt.show()
+    plot_title = "Insert Time vs Position in List of 100,000,000 Elements"
+    plot_graph(pos_list, times, plot_title, "Insert Position", "Average Time (seconds)")
 
     # Special: draw graph of insertion at position 0 for increasing list sizes
     print("> Insert with lists of various sizes up to 100M, at position 0")
@@ -140,13 +136,15 @@ def run_benchmarks():
     times = [
         time_list_insertion_op(base[i], "hello", "insert", 0) for i in range(len(base))
     ]
-    plt.figure(figsize=(10, 6))
-    plt.plot([len(base[i]) for i in range(len(base))], times, marker="o")
-    plt.title("Insert Time vs length of list, inserting at position 0")
-    plt.xlabel("List length")
-    plt.ylabel("Average Time (seconds)")
-    plt.grid(True)
-    plt.show()
+
+    plot_title = "Insert Time vs length of list, inserting at position 0"
+    plot_graph(
+        [len(base[i]) for i in range(len(base))],
+        times,
+        plot_title,
+        "List length",
+        "Average Time (seconds)",
+    )
 
 
 if __name__ == "__main__":

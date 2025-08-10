@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from code.lists.creation import create_list, create_random_float_list
 from code.utils.decorators.time_decorator import timeit
+from code.utils.methods.draw import plot_graph
 from config import config
 
 N_ITER = config.N_ITER
@@ -38,13 +39,14 @@ def main():
         _, lst = create_list(n_el=size)
         time = iterate_list(lst)[0]
         times.append(time)
-    plt.figure(figsize=(10, 6))
-    plt.plot(list_sizes, times, marker="o")
-    plt.title("Iterate Time vs list size")
-    plt.xlabel("List Size")
-    plt.ylabel("Average full iteration Time (seconds)")
-    plt.grid(True)
-    plt.show()
+
+    plot_graph(
+        list_sizes,
+        times,
+        "Iterate Time vs list size",
+        "List Size",
+        "Average full iteration Time (seconds)",
+    )
 
 
 if __name__ == "__main__":

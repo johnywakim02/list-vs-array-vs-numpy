@@ -1,4 +1,5 @@
 from code.utils.decorators.time_decorator import timeit
+from code.utils.methods.draw import plot_graph
 from config import config
 import time
 import matplotlib.pyplot as plt
@@ -44,13 +45,10 @@ def run_benchmarks():
     ]
     times = [time_list_deletion_op(base, pos) for pos in positions]
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(positions, times, marker="o")
-    plt.title("Delete Time vs Position in List of 100,000 Elements")
-    plt.xlabel("Delete Position")
-    plt.ylabel("Average Time (seconds)")
-    plt.grid(True)
-    plt.show()
+    plot_title = "Delete Time vs Position in List of 100,000 Elements"
+    plot_graph(
+        positions, times, plot_title, "Delete Position", "Average Time (seconds)"
+    )
 
 
 if __name__ == "__main__":

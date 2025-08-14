@@ -7,7 +7,7 @@ def timeit(n_iter: int):
         @wraps(func)
         def wrapper(*args, **kwargs):
             start = time.perf_counter()
-            for i in range(n_iter):
+            for _ in range(n_iter):
                 result = func(*args, **kwargs)
             end = time.perf_counter()
             duration = (end - start) / n_iter

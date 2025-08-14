@@ -1,4 +1,5 @@
 from __future__ import annotations
+from array import array
 import random
 from code.utils.decorators.time_decorator import timeit
 from code.utils.methods.draw import plot_graph
@@ -8,7 +9,7 @@ N_ITER = config.N_ITER
 
 
 @timeit(N_ITER)
-def sort_numeric_list(lst: list[int | float]) -> list[int | float]:
+def sort_numeric_list(lst: array[int | float]) -> array[int | float]:
     return sorted(lst)
 
 
@@ -18,11 +19,12 @@ if __name__ == "__main__":
     sizes: list[int] = [int(factor * max_el) for factor in factors]
     times: list[float] = []
     for size in sizes:
-        lst: list[float] = [random.uniform(0, 100) for _ in range(size)]
-        time, _ = sort_numeric_list(lst)
+        arr: array[float] = array("f", [random.uniform(0, 100) for _ in range(size)])
+        print(size)
+        time, _ = sort_numeric_list(arr)
         times.append(time)
-    plot_title: str = "Sorting time vs List size for a list of floats"
-    plot_graph(sizes, times, plot_title, "List Size", "Sorting Time (s)")
+    plot_title: str = "Sorting time vs Array size for an Array of floats"
+    plot_graph(sizes, times, plot_title, "Array Size", "Sorting Time (s)")
 
-    lst = [random.uniform(0, 100) for _ in range(10_000_000)]
+    lst = array("f", [random.uniform(0, 100) for _ in range(10_000_000)])
     sort_numeric_list(lst)

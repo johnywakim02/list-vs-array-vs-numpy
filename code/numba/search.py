@@ -61,6 +61,10 @@ if __name__ == "__main__":
         njit_search_element_first_position(arr, elements[0])
         njit_search_element_all_positions(arr, elements[0])
     # get the timing results
-    for method in methods:
-        for el in elements:
-            method(arr, el)
+    # for method in methods:
+    #     for el in elements:
+    #         method(arr, el)
+
+    size = 10_000
+    arr = np.arange(1, size)
+    np_search_element_all_positions(arr, 100)

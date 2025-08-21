@@ -48,3 +48,7 @@ if __name__ == "__main__":
     for method in methods:
         for el in elements:
             method(lst, el)
+
+    size = 10_000
+    lst = [i + 1 for i in range(size)]
+    search_element_all_positions_v2(lst, 100)

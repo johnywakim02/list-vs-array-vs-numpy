@@ -34,3 +34,7 @@ if __name__ == "__main__":
     for method in methods:
         for el in elements:
             method(arr, el)
+
+    size = 10_000
+    arr = array.array("I", range(1, size))
+    arr_search_element_all_positions(arr, 100)

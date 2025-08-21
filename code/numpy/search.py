@@ -35,3 +35,7 @@ if __name__ == "__main__":
     for method in methods:
         for el in elements:
             method(arr, el)
+
+    size = 10_000
+    arr = np.arange(1, size)
+    np_search_element_all_positions(arr, 100)

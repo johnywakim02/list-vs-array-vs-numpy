@@ -36,7 +36,7 @@ def search_element_all_positions_v2(lst: list[int], el: int):
     return indices
 
 
-if __name__ == "__main__":
+def test_search_types_on_hundred_million():
     lst = [i + 1 for i in range(100_000_000)]
     elements = [100, 10_000, 1_000_000, 100_000_000]
     methods = [
@@ -49,6 +49,19 @@ if __name__ == "__main__":
         for el in elements:
             method(lst, el)
 
+
+def test_search_all_on_ten_thousand():
     size = 10_000
     lst = [i + 1 for i in range(size)]
     search_element_all_positions_v2(lst, 100)
+
+
+if __name__ == "__main__":
+    TESTS = {
+        test_search_types_on_hundred_million: True,
+        test_search_all_on_ten_thousand: True,
+    }
+
+    for test, flag in TESTS.items():
+        if flag:
+            test()

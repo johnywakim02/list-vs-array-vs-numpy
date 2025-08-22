@@ -24,7 +24,7 @@ def np_search_element_all_positions(arr: np.ndarray, el: int):
     return np.where(arr == el)[0].tolist()
 
 
-if __name__ == "__main__":
+def test_search_types_on_hundred_million():
     arr = np.arange(1, 100_000_001)  # Equivalent to [1, 2, ..., 100_000_000]
     elements = [100, 10_000, 1_000_000, 100_000_000]
     methods = [
@@ -36,6 +36,19 @@ if __name__ == "__main__":
         for el in elements:
             method(arr, el)
 
+
+def test_search_all_on_ten_thousand():
     size = 10_000
     arr = np.arange(1, size)
     np_search_element_all_positions(arr, 100)
+
+
+if __name__ == "__main__":
+    TESTS = {
+        test_search_types_on_hundred_million: True,
+        test_search_all_on_ten_thousand: True,
+    }
+
+    for test, flag in TESTS.items():
+        if flag:
+            test()

@@ -38,15 +38,35 @@ def test_search_types_on_hundred_million():
 
 
 def test_search_all_on_ten_thousand():
+    print("**************")
+    print("search a numpy array of 10k elements")
     size = 10_000
+    arr = np.arange(1, size)
+    np_search_element_all_positions(arr, 100)
+
+
+def test_search_all_on_hundred():
+    print("**************")
+    print("search a numpy array of 100 elements")
+    size = 100
+    arr = np.arange(1, size)
+    np_search_element_all_positions(arr, 100)
+
+
+def test_search_all_on_million():
+    print("**************")
+    print("search a numpy array of 1M elements")
+    size = 1_000_000
     arr = np.arange(1, size)
     np_search_element_all_positions(arr, 100)
 
 
 if __name__ == "__main__":
     TESTS = {
-        test_search_types_on_hundred_million: True,
+        test_search_types_on_hundred_million: False,
+        test_search_all_on_hundred: True,
         test_search_all_on_ten_thousand: True,
+        test_search_all_on_million: True,
     }
 
     for test, flag in TESTS.items():

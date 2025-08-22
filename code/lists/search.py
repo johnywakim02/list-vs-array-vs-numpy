@@ -51,15 +51,35 @@ def test_search_types_on_hundred_million():
 
 
 def test_search_all_on_ten_thousand():
+    print("************")
+    print("> Searching for all occurences of an element in a list of 10k element")
     size = 10_000
+    lst = [i + 1 for i in range(size)]
+    search_element_all_positions_v2(lst, 100)
+
+
+def test_search_all_on_hundred():
+    print("************")
+    print("> Searching for all occurences of an element in a list of 100 element")
+    size = 100
+    lst = [i + 1 for i in range(size)]
+    search_element_all_positions_v2(lst, 100)
+
+
+def test_search_all_on_million():
+    print("************")
+    print("> Searching for all occurences of an element in a list of 1M element")
+    size = 1_000_000
     lst = [i + 1 for i in range(size)]
     search_element_all_positions_v2(lst, 100)
 
 
 if __name__ == "__main__":
     TESTS = {
-        test_search_types_on_hundred_million: True,
+        test_search_types_on_hundred_million: False,
+        test_search_all_on_hundred: True,
         test_search_all_on_ten_thousand: True,
+        test_search_all_on_million: True,
     }
 
     for test, flag in TESTS.items():

@@ -10,26 +10,26 @@ N_ITER = config.N_ITER
 
 
 @timeit(n_iter=N_ITER)
-def create_list(n_el: int):
+def create_list(n_el: int) -> list[int]:
     return [0] * n_el
 
 
 @timeit(n_iter=N_ITER)
-def create_list_from_iterable(n_el: int):
+def create_list_from_iterable(n_el: int) -> list[int]:
     return list(range(n_el))
 
 
 @timeit(n_iter=N_ITER)
-def create_list_comprehension(n_el: int):
+def create_list_comprehension(n_el: int) -> list[int]:
     return [i for i in range(n_el)]
 
 
 @timeit(n_iter=N_ITER)
-def create_random_float_list(n_el: int):
+def create_random_float_list(n_el: int) -> list[float]:
     return [random.uniform(0, 100) for _ in range(n_el)]
 
 
-def compute_time_and_draw(msg: str, method, list_sizes: list[int]):
+def compute_time_and_draw(msg: str, method, list_sizes: list[int]) -> None:
     print(f"> {msg}")
     print("-" * 58)
     times = [method(size)[0] for size in list_sizes]

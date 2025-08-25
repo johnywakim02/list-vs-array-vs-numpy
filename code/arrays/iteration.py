@@ -29,13 +29,16 @@ def create_random_float_array(n_el: int) -> array:
     return array("f", [random.uniform(0, 100) for _ in range(n_el)])
 
 
-def main():
-    # Warm-up to avoid measuring initialization overhead
-    print("***********")
-    print("> Warm Up")
-    warmup_array = create_random_float_array(1000)
-    iterate_array_summing(warmup_array)
+def test_iteration_on_million():
+    print("************")
+    print("> Testing iteration on 1 million")
+    lst = create_random_float_array(n_el=100_000_000)
+    iterate_array_summing(lst)
 
+
+def test_iteration_and_draw():
+    print("************")
+    print("> Testing iteration for different sizes and plotting")
     list_sizes = [
         0,
         1_000,
@@ -46,10 +49,6 @@ def main():
         80_000_000,
         100_000_000,
     ]
-    print("************")
-    print("> Real Tests")
-    lst = create_random_float_array(n_el=list_sizes[-1])
-    iterate_array_summing(lst)
     times = []
     for size in list_sizes:
         lst = create_array(n_el=size)
@@ -66,4 +65,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Warm-up to avoid measuring initialization overhead
+    print("***********")
+    print("> Warm Up")
+    warmup_array = create_random_float_array(1000)
+    iterate_array_summing(warmup_array)
+    # test_iteration_on_million()
+    test_iteration_and_draw()

@@ -70,5 +70,13 @@ if __name__ == "__main__":
     print("> Warm Up")
     warmup_array = create_random_float_array(1000)
     iterate_array_summing(warmup_array)
-    # test_iteration_on_million()
-    test_iteration_and_draw()
+
+    # real tests
+    TESTS = {
+        test_iteration_on_million: False,
+        test_iteration_and_draw: True,
+    }
+
+    for test, flag in TESTS.items():
+        if flag:
+            test()

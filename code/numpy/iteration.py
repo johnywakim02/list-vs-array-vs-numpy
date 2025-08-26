@@ -6,8 +6,8 @@ from config import config
 N_ITER = config.N_ITER
 
 
-def create_np_array(n_el: int, value: float = 0.0) -> np.ndarray:
-    return np.full(n_el, value)
+def create_np_array(n_el: int) -> np.ndarray:
+    return np.zeros(n_el, dtype=np.int32)
 
 
 def create_random_float_np_array(n_el: int) -> np.ndarray:
@@ -28,7 +28,16 @@ def iterate_np_array_summing(arr: np.ndarray):
     return total
 
 
-def main():
+def test_iteration_on_million():
+    print("************")
+    print("> Testing iteration on 1 million")
+    np_array = create_random_float_np_array(100_000_000)
+    iterate_np_array(np_array)
+
+
+def test_iteration_and_draw():
+    print("************")
+    print("> Testing iteration for different sizes and plotting")
     array_sizes = [
         0,
         1_000,
@@ -40,14 +49,6 @@ def main():
         100_000_000,
     ]
 
-    # Warm-up
-    warmup_arr = create_random_float_np_array(1000)
-    iterate_np_array_summing(warmup_arr)
-
-    # Tests
-    np_array = create_random_float_np_array(100_000_000)
-    iterate_np_array(np_array)
-
     times = []
     for size in array_sizes:
         arr = create_np_array(n_el=size)
@@ -58,10 +59,24 @@ def main():
         array_sizes,
         times,
         title="Iterate Time vs NumPy array size",
-        x_label="Array Size",
+        x_label="Numpy Array Size",
         y_label="Average Full Iteration Time (seconds)",
     )
 
 
 if __name__ == "__main__":
-    main()
+    # Warm-up to avoid measuring initialization overhead
+    print("***********")
+    print("> Warm Up")
+    warmup_array = create_random_float_np_array(1000)
+    iterate_np_array_summing(warmup_array)
+
+    # real tests
+    TESTS = {
+        test_iteration_on_million: False,
+        test_iteration_and_draw: True,
+    }
+
+    for test, flag in TESTS.items():
+        if flag:
+            test()

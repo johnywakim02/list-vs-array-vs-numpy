@@ -18,7 +18,7 @@ def create_ints_np_array(n_el: int) -> np.ndarray:
 
 
 @timeit(n_iter=N_ITER)
-def create_floats_np_array(n_el: str):
+def create_floats_np_array(n_el: int):
     return np.random.rand(n_el) * 100
 
 

@@ -74,9 +74,8 @@ if __name__ == "__main__":
     print("> Warm Up")
     warmup_array_sizes = [1000, 10_000, 100_000, 1_000_000, 100_000_000]
     for size in warmup_array_sizes:
-        warmup_array = create_random_float_np_array(size)
+        warmup_array = create_np_array(size)
         iterate_np_array_wnumba(warmup_array)
-        iterate_np_array_summing_wnumba(warmup_array)
 
     # real tests
     TESTS = {

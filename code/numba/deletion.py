@@ -5,13 +5,21 @@ import matplotlib.pyplot as plt
 from code.utils.methods.draw import plot_graph
 from config import config
 
-# Set iterations manually or from config
 N_ITER = config.N_ITER
 
 
 # Numba replacement for np.delete
 @njit
-def delete_element(arr, pos):
+def delete_element(arr: np.ndarray, pos: int) -> np.ndarray:
+    """Delete an element from the array at a certain position
+
+    Args:
+        arr (np.ndarray): the array to delete from
+        pos (int): the position of the element at which to delete
+
+    Returns:
+        np.ndarray: the array withou the deleted element
+    """
     n = arr.size
     result = np.empty(n - 1, dtype=arr.dtype)
     for i in range(pos):
@@ -21,8 +29,19 @@ def delete_element(arr, pos):
     return result
 
 
+# to counterbalance deletion between operations
 @njit
-def insert_element(arr, pos, value):
+def insert_element(arr: np.ndarray, pos: int, value: object) -> np.ndarray:
+    """Add element at a specified position
+
+    Args:
+        arr (np.ndarray): the array to add to
+        pos (int): the position at which to add
+        value (object): the value to add
+
+    Returns:
+        np.ndarray: the array after adding the element
+    """
     n = arr.size
     result = np.empty(n + 1, dtype=arr.dtype)
     for i in range(pos):

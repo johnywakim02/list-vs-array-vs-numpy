@@ -13,9 +13,17 @@ def time_array_deletion_op(
     pos: int = None,
     n_iter: int = N_ITER,
 ):
-    """
-    Measures average time of del arr[pos],
+    """Measures average time of del arr[pos],
     undoing each operation to keep the array size constant.
+
+
+    Args:
+        arr (array): the initial array
+        pos (int, optional): the position at which to delete. Defaults to None.
+        n_iter (int, optional): the number of iterations. Defaults to N_ITER.
+
+    Returns:
+        _type_: _description_
     """
 
     total = 0.0

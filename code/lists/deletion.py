@@ -11,10 +11,17 @@ def time_list_deletion_op(
     lst: list,
     pos: int = None,
     n_iter: int = N_ITER,
-):
-    """
-    Measures average time of del lst[pos],
+) -> float:
+    """Measures average time of del lst[pos],
     undoing each operation to keep the list size constant.
+
+    Args:
+        lst (list): the initial list
+        pos (int, optional): the position at which to delete. Defaults to None.
+        n_iter (int, optional): the number of iterations. Defaults to N_ITER.
+
+    Returns:
+        float: the average iteration time
     """
 
     total = 0.0

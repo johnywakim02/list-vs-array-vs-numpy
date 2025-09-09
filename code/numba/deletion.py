@@ -90,4 +90,8 @@ def run_numba_benchmarks():
 
 
 if __name__ == "__main__":
+    base = np.zeros(100_000_000, dtype=np.int32)
+    # warmup
+    for i in range(1, 100_001, 1000):
+        delete_element(base, i)
     run_numba_benchmarks()

@@ -12,10 +12,18 @@ def time_numpy_deletion_op(
     arr: np.ndarray,
     pos: int = None,
     n_iter: int = N_ITER,
-):
-    """
-    Measures average time of np.delete(arr, pos),
+) -> float:
+    """Measures average time of deleting from a numpy array,
     undoing each operation to keep the array size constant.
+
+
+    Args:
+        arr (np.ndarray): the initial numpy array
+        pos (int, optional): the position at which to delete. Defaults to None.
+        n_iter (int, optional): the number of iterations. Defaults to N_ITER.
+
+    Returns:
+        float: the average iteration time
     """
 
     total = 0.0

@@ -9,12 +9,8 @@ N_ITER = config.N_ITER
 
 
 @njit
-def numba_slice(arr: np.ndarray, start: int, end: int) -> np.ndarray:
-    size = end - start
-    result = np.empty(size, dtype=arr.dtype)
-    for i in range(size):
-        result[i] = arr[start + i]
-    return result
+def numba_slice(arr: np.ndarray, start: int, end: int):
+    return arr[start:end]
 
 
 # Timing wrapper to keep numba code separate from decorator for warmup

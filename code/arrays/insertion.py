@@ -7,40 +7,6 @@ from config import config
 N_ITER = config.N_ITER
 
 
-def time_list_insertion_op(
-    lst: list,
-    element: object,
-    action: str = "append",
-    pos: int = None,
-    n_iter: int = N_ITER,
-):
-    """
-    Measures average time of lst.append(element) or lst.insert(pos, element),
-    undoing each operation to keep the list size constant.
-    """
-    if action not in ("append", "insert"):
-        raise ValueError(f"action cannot have value '{action}'")
-
-    total = 0.0
-    for _ in range(n_iter):
-        start = time.perf_counter()
-        if action == "append":
-            lst.append(element)
-        else:
-            lst.insert(pos, element)
-        total += time.perf_counter() - start
-
-        # undo
-        if action == "append":
-            lst.pop()
-        else:
-            del lst[pos]
-
-    avg = total / n_iter
-    print(f"Average {action} time over {n_iter} iterations: {avg:.10f} seconds")
-    return avg
-
-
 def time_array_insertion_op(
     arr: array.array,
     element: object,
@@ -76,58 +42,6 @@ def time_array_insertion_op(
 
 
 def run_benchmarks():
-    # List tests
-    tests = [
-        (
-            "Append with list of 3 elements",
-            ["chihuahua", "bulldog", "butterfly"],
-            "bernese",
-            "append",
-            None,
-        ),
-        ("Append with list of 1000 elements", list(range(1001)), 1001, "append", None),
-        (
-            "Append with list of 100000 elements",
-            list(range(100001)),
-            51,
-            "append",
-            None,
-        ),
-        (
-            "Insert with list of 10 elements at beg/mid/end",
-            list(range(11)),
-            "hello",
-            "insert",
-            [2, 5, 8],
-        ),
-        (
-            "Insert with list of 1000 elements at beg/mid/end",
-            list(range(1001)),
-            "hello",
-            "insert",
-            [50, 450, 850],
-        ),
-        (
-            "Insert with list of 100000 elements at beg/mid/end",
-            list(range(100001)),
-            "hello",
-            "insert",
-            [50, 50000, 99500],
-        ),
-    ]
-
-    for desc, lst, elem, action, positions in tests:
-        print(f"> {desc} (list)")
-        print("-" * len(desc))
-        if positions is None:
-            time_list_insertion_op(lst, elem, action)
-        else:
-            for pos in positions:
-                print(f"Insert at index {pos}:", end=" ")
-                time_list_insertion_op(lst, elem, action, pos)
-        print()
-
-    # Array tests (only integer arrays here for simplicity)
     array_tests = [
         (
             "Append with array of 3 elements",

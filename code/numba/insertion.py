@@ -37,6 +37,14 @@ def time_numpy_insertion_op(
     pos: int = None,
     n_iter: int = N_ITER,
 ):
+    # Warm-up call to compile Numba functions once before timing
+    if action == "append":
+        _ = append_numba(arr, element)
+    elif action == "insert":
+        _ = insert_numba(arr, pos, element)
+    else:
+        raise ValueError(f"action cannot have value '{action}'")
+
     total = 0.0
     if action == "append":
         for _ in range(n_iter):
